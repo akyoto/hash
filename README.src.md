@@ -12,6 +12,8 @@ x := hash.Bytes([]byte("Hello World"))
 
 ## Benchmarks
 
+Hashing 11 KB:
+
 ```text
 BenchmarkBytes-12       26772571                42.2 ns/op             0 B/op          0 allocs/op
 BenchmarkString-12      27747283                42.3 ns/op             0 B/op          0 allocs/op
