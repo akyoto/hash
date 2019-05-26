@@ -10,17 +10,16 @@ import (
 )
 
 const (
-	iterations = 100
-	sizeMin    = 8
-	sizeMax    = 8 * 2048
-	sizeStep   = 8
+	iterations = 100000
+	sizeMin    = 32
+	sizeMax    = 8192
 )
 
 func TestCollisions(t *testing.T) {
 	hashes := map[uint64]bool{}
 
 	// Generate payloads
-	for size := sizeMin; size < sizeMax; size += sizeStep {
+	for size := sizeMin; size < sizeMax; size *= 2 {
 		for i := 0; i < iterations; i++ {
 			data := make([]byte, size)
 			_, _ = rand.Read(data)
