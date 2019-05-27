@@ -6,7 +6,7 @@
 [![Coverage][coverage-image]][coverage-url]
 [![Sponsor][sponsor-image]][sponsor-url]
 
-Ultra-fast hashing of arbitrary bytes.
+Ultra-fast hashing of bytes, strings and reader contents. The algorithm is meant to be used for cache (in)validation. It is about 3 times faster than the popular `xxhash`.
 
 ## Usage
 
