@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/rand"
 	"strings"
+	"sync"
 	"testing"
 
 	"github.com/akyoto/hash"
@@ -43,8 +44,17 @@ func TestString(t *testing.T) {
 	}
 }
 
+func TestReader(t *testing.T) {
+	a := hash.String("Hello World")
+	b := hash.Reader(strings.NewReader("Hello World"))
+
+	if a != b {
+		t.Fatal("Reader hashing is most likely broken")
+	}
+}
+
 func BenchmarkBytes(b *testing.B) {
-	data := bytes.Repeat([]byte("Hello World"), 1000)
+	data := bytes.Repeat([]byte("HelloWorld"), 1000)
 
 	b.ReportAllocs()
 	b.ResetTimer()
@@ -57,7 +67,7 @@ func BenchmarkBytes(b *testing.B) {
 }
 
 func BenchmarkString(b *testing.B) {
-	data := strings.Repeat("Hello World", 1000)
+	data := strings.Repeat("HelloWorld", 1000)
 
 	b.ReportAllocs()
 	b.ResetTimer()
@@ -66,5 +76,29 @@ func BenchmarkString(b *testing.B) {
 		for pb.Next() {
 			hash.String(data)
 		}
+	})
+}
+
+func BenchmarkReader(b *testing.B) {
+	data := bytes.Repeat([]byte("HelloWorld"), 1000)
+
+	pool := sync.Pool{
+		New: func() interface{} {
+			return bytes.NewReader(data)
+		},
+	}
+
+	b.ReportAllocs()
+	b.ResetTimer()
+
+	b.RunParallel(func(pb *testing.PB) {
+		reader := pool.Get().(*bytes.Reader)
+
+		for pb.Next() {
+			_, _ = reader.Seek(0, 0)
+			hash.Reader(reader)
+		}
+
+		pool.Put(reader)
 	})
 }

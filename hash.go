@@ -8,8 +8,17 @@ import (
 
 // Bytes hashes the given byte slice.
 func Bytes(in []byte) uint64 {
-	x := uint64(len(in))
-	i := 0
+	return add(0, in)
+}
+
+// String hashes the given string.
+func String(in string) uint64 {
+	return Bytes(utils.StringToBytes(in))
+}
+
+// add implements the actual hashing.
+func add(x uint64, in []byte) uint64 {
+	var i int
 
 	// Cache lines on modern processors are 64 bytes long.
 	// A single uint64 consumes 64 bits (8 bytes).
@@ -34,9 +43,4 @@ func Bytes(in []byte) uint64 {
 	}
 
 	return x
-}
-
-// String hashes the given string.
-func String(in string) uint64 {
-	return Bytes(utils.StringToBytes(in))
 }
