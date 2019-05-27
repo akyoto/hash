@@ -36,22 +36,22 @@ func TestCollisions(t *testing.T) {
 	}
 }
 
-// func TestString(t *testing.T) {
-// 	x := hash.String("Hello World")
+func TestString(t *testing.T) {
+	x := hash.String("Hello World")
 
-// 	if x == 0 {
-// 		t.Fatal("String hashing is most likely broken")
-// 	}
-// }
+	if x == 0 {
+		t.Fatal("String hashing is most likely broken")
+	}
+}
 
-// func TestReader(t *testing.T) {
-// 	a := hash.String("Hello World")
-// 	b := hash.Reader(strings.NewReader("Hello World"))
+func TestReader(t *testing.T) {
+	a := hash.String("Hello World")
+	b := hash.Reader(strings.NewReader("Hello World"))
 
-// 	if a != b {
-// 		t.Fatal("Reader hashing is most likely broken")
-// 	}
-// }
+	if a != b {
+		t.Fatal("Reader hashing is most likely broken")
+	}
+}
 
 func BenchmarkBytes(b *testing.B) {
 	data := bytes.Repeat([]byte("HelloWorld"), 1000)
