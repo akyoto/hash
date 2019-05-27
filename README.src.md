@@ -15,9 +15,9 @@ x := hash.Bytes([]byte("Hello World"))
 Hashing 10 KB:
 
 ```text
-BenchmarkBytes-12       31416195                35.9 ns/op             0 B/op          0 allocs/op
-BenchmarkString-12      31345899                36.3 ns/op             0 B/op          0 allocs/op
-BenchmarkReader-12      19575999                59.9 ns/op            32 B/op          1 allocs/op
+BenchmarkBytes-12       31116072                36.9 ns/op             0 B/op          0 allocs/op
+BenchmarkString-12      30273320                37.2 ns/op             0 B/op          0 allocs/op
+BenchmarkReader-12      18604939                61.9 ns/op            32 B/op          1 allocs/op
 ```
 
 {go:footer}
