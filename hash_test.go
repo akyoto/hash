@@ -16,26 +16,6 @@ const (
 	sizeMax    = 128
 )
 
-func TestRandomCollisions(t *testing.T) {
-	hashes := map[uint64][]byte{}
-
-	// Generate payloads
-	for size := sizeMin; size <= sizeMax; size *= 2 {
-		for i := 0; i < iterations; i++ {
-			data := make([]byte, size)
-			_, _ = rand.Read(data)
-			h := hash.Bytes(data)
-			existingData, exists := hashes[h]
-
-			if exists && !bytes.Equal(data, existingData) {
-				t.Fatalf("Hash '%d' already exists", h)
-			}
-
-			hashes[h] = data
-		}
-	}
-}
-
 func TestZeroedCollisions(t *testing.T) {
 	hashes := map[uint64][]byte{}
 
@@ -64,6 +44,26 @@ func TestSimilarCollisions(t *testing.T) {
 		for i := 0; i < iterations; i++ {
 			data[index] += 1
 			index = (index + 1) % len(data)
+			h := hash.Bytes(data)
+			existingData, exists := hashes[h]
+
+			if exists && !bytes.Equal(data, existingData) {
+				t.Fatalf("Hash '%d' already exists", h)
+			}
+
+			hashes[h] = data
+		}
+	}
+}
+
+func TestRandomCollisions(t *testing.T) {
+	hashes := map[uint64][]byte{}
+
+	// Generate payloads
+	for size := sizeMin; size <= sizeMax; size *= 2 {
+		for i := 0; i < iterations; i++ {
+			data := make([]byte, size)
+			_, _ = rand.Read(data)
 			h := hash.Bytes(data)
 			existingData, exists := hashes[h]
 
