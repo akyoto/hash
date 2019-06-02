@@ -28,4 +28,9 @@ x := hash.String("Hello World")
 x := hash.Reader(file)
 ```
 
+## Collisions
+
+The algorithm in its current state has a possible collision if payloads bigger than 64 bytes contain a +1/-1 diff on an 8-byte index difference.
+If this turns out to be a problem for your use case, please consider other hash libraries or feel free to contribute and [send a PR](https://github.com/akyoto/hash/pulls).
+
 {go:footer}
