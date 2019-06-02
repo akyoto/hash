@@ -2,9 +2,7 @@ package hash_test
 
 import (
 	"bytes"
-	"crypto/rand"
 	"strings"
-	"sync"
 	"testing"
 
 	"github.com/akyoto/hash"
@@ -29,49 +27,48 @@ func TestZeroedCollisions(t *testing.T) {
 			t.Fatalf("Hash '%d' collision between zeroed sizes '%d' and '%d'", h, len(existingData), size)
 		}
 
-		hashes[h] = data
+		tmp := make([]byte, len(data))
+		copy(tmp, data)
+		hashes[h] = tmp
 	}
 }
 
 func TestSimilarCollisions(t *testing.T) {
 	hashes := map[uint64][]byte{}
+	offsetMax := 8
 
 	// Generate payloads
 	for size := sizeMin; size <= sizeMax; size *= 2 {
-		data := make([]byte, size)
-		index := 0
-
-		for i := 0; i < iterations; i++ {
-			data[index] += 1
-			index = (index + 1) % len(data)
-			h := hash.Bytes(data)
-			existingData, exists := hashes[h]
-
-			if exists && !bytes.Equal(data, existingData) {
-				t.Fatalf("Hash '%d' already exists", h)
-			}
-
-			hashes[h] = data
-		}
-	}
-}
-
-func TestRandomCollisions(t *testing.T) {
-	hashes := map[uint64][]byte{}
-
-	// Generate payloads
-	for size := sizeMin; size <= sizeMax; size *= 2 {
-		for i := 0; i < iterations; i++ {
+		for offset := 1; offset <= offsetMax; offset++ {
 			data := make([]byte, size)
-			_, _ = rand.Read(data)
-			h := hash.Bytes(data)
-			existingData, exists := hashes[h]
+			index := 0
 
-			if exists && !bytes.Equal(data, existingData) {
-				t.Fatalf("Hash '%d' already exists", h)
+			for i := 0; i < iterations; i++ {
+				data[index] += 1
+				index = (index + offset) % len(data)
+				h := hash.Bytes(data)
+				existingData, exists := hashes[h]
+
+				if exists && !bytes.Equal(data, existingData) {
+					t.Logf("Len A: %d", len(data))
+
+					for _, b := range data {
+						t.Logf("A: %b (%d)", b, b)
+					}
+
+					t.Logf("Len B: %d", len(existingData))
+
+					for _, b := range existingData {
+						t.Logf("B: %b (%d)", b, b)
+					}
+
+					t.Fatalf("Hash %b (%d) already exists", h, h)
+				}
+
+				tmp := make([]byte, len(data))
+				copy(tmp, data)
+				hashes[h] = tmp
 			}
-
-			hashes[h] = data
 		}
 	}
 }
@@ -81,15 +78,6 @@ func TestString(t *testing.T) {
 
 	if x == 0 {
 		t.Fatal("String hashing is most likely broken")
-	}
-}
-
-func TestReader(t *testing.T) {
-	a := hash.String("Hello World")
-	b := hash.Reader(strings.NewReader("Hello World"))
-
-	if a != b {
-		t.Fatal("Reader hashing is most likely broken")
 	}
 }
 
@@ -116,29 +104,5 @@ func BenchmarkString(b *testing.B) {
 		for pb.Next() {
 			hash.String(data)
 		}
-	})
-}
-
-func BenchmarkReader(b *testing.B) {
-	data := bytes.Repeat([]byte("HelloWorld"), 1000)
-
-	pool := sync.Pool{
-		New: func() interface{} {
-			return bytes.NewReader(data)
-		},
-	}
-
-	b.ReportAllocs()
-	b.ResetTimer()
-
-	b.RunParallel(func(pb *testing.PB) {
-		reader := pool.Get().(*bytes.Reader)
-
-		for pb.Next() {
-			_, _ = reader.Seek(0, 0)
-			hash.Reader(reader)
-		}
-
-		pool.Put(reader)
 	})
 }
