@@ -6,13 +6,9 @@ Ultra-fast hashing of bytes, strings and reader contents. The algorithm is meant
 
 ## Comparison
 
-```text
-BenchmarkAkyotoHash_4B-12       1000000000               0.702 ns/op           0 B/op          0 allocs/op
-BenchmarkCRC32_4B-12            748350471                1.59 ns/op            0 B/op          0 allocs/op
-BenchmarkXXHash_4B-12           533528487                2.22 ns/op            0 B/op          0 allocs/op
-BenchmarkSipHash_4B-12          833339200                1.43 ns/op            0 B/op          0 allocs/op
-BenchmarkFNV_4B-12              1000000000               0.703 ns/op           0 B/op          0 allocs/op
+![Hash performance benchmarks](docs/hash-performance.png)
 
+```text
 BenchmarkAkyotoHash_8B-12       1000000000               0.469 ns/op           0 B/op          0 allocs/op
 BenchmarkCRC32_8B-12            547803841                2.17 ns/op            0 B/op          0 allocs/op
 BenchmarkXXHash_8B-12           516036067                2.24 ns/op            0 B/op          0 allocs/op
@@ -26,7 +22,7 @@ BenchmarkSipHash_10KB-12         2815754               423 ns/op               0
 BenchmarkFNV_10KB-12             1534830               781 ns/op               0 B/op          0 allocs/op
 ```
 
-Run these for yourself using [hash-benchmarks](https://github.com/akyoto/hash-benchmarks).
+Run these by yourself using [hash-benchmarks](https://github.com/akyoto/hash-benchmarks).
 
 ## Usage
 
