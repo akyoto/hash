@@ -1,4 +1,6 @@
-github.com/zeebo/xxh3 v0.0.0-20190829032042-2e75bc3ac09d h1:uqXAN8sJKaJGpSaRDEFu75MQhGafwP89dkNvS0HVYsU=
-github.com/zeebo/xxh3 v0.0.0-20190829032042-2e75bc3ac09d/go.mod h1:e/zZObEJWtkq6f+bAzme0xQJSGI75oxoeqS+f2I7YVI=
+github.com/zeebo/xxh3 v0.0.0-20190923153500-83a7230063d0 h1:tFBBYU7YRi28AS9Oj/uoHxsxkUUjj9rcTt/Lkzd/VHQ=
+github.com/zeebo/xxh3 v0.0.0-20190923153500-83a7230063d0/go.mod h1:e/zZObEJWtkq6f+bAzme0xQJSGI75oxoeqS+f2I7YVI=
 golang.org/x/sys v0.0.0-20190826190057-c7b8b68b1456 h1:ng0gs1AKnRRuEMZoTLLlbOd+C17zUDepwGQBb/n+JVg=
 golang.org/x/sys v0.0.0-20190826190057-c7b8b68b1456/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
+golang.org/x/sys v0.0.0-20190927073244-c990c680b611 h1:q9u40nxWT5zRClI/uU9dHCiYGottAg6Nzz4YUQyHxdA=
+golang.org/x/sys v0.0.0-20190927073244-c990c680b611/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
